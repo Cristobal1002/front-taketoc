@@ -8,9 +8,13 @@ import { ElementsModule } from '../elements/elements.module';
 
 
 @NgModule({
-  declarations: [DashboardComponent],
-  exports: [
+  declarations: [
+    DashboardComponent,
     PagesComponent
+  ],
+  exports: [
+    PagesComponent,
+    DashboardComponent
   ],
   imports: [
     CommonModule,

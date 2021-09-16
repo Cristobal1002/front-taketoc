@@ -1,13 +1,19 @@
-<div id="main-wrapper" [ngClass]="{'menu-toggle': sharedService.hamburgerClass, '': !sharedService.hamburgerClass}"  class="show" >
-            
-            
-    <app-loading></app-loading>
-    
+<div id="main-wrapper" [ngClass]="{'menu-toggle': sharedService.hamburgerClass, '': !sharedService.hamburgerClass}"
+    class="show">
+
+
+    <!--<app-loading></app-loading>-->
+
     <app-nav-header></app-nav-header>
     <app-header></app-header>
-    <app-navigation></app-navigation> 
-    
-    <router-outlet></router-outlet>
-    
+    <app-navigation></app-navigation>
+
+    <div class="content-body rightside-event">
+        <!-- row -->
+        
+        <router-outlet></router-outlet>
+
+    </div>
+
     <app-footer></app-footer>
 </div>
