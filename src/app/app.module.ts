@@ -10,6 +10,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 /* #########################  SITE PAGES COMPONENT ###################*/
 import { PagesModule } from './pages/pages.module';
+import { AuthModule } from './auth/auth.module';
 
 
 
@@ -22,8 +23,8 @@ import { PagesModule } from './pages/pages.module';
     BrowserModule,
     AppRoutingModule,
     PagesModule,
-
     HttpClientModule,
+    AuthModule,
     NgbModule  
   ],
   providers: [],

@@ -4,7 +4,7 @@
 
 <!--Home-->
       <li class="{{(currentHref == '/admin/widget-basic') ? 'mm-active' : ''}}">
-        <a [routerLink]="['/admin/widget-basic']"
+        <a [routerLink]="['home']"
           class="ai-icon {{(currentHref == '/admin/widget-basic') ? 'mm-active' : ''}}" class="ai-icon"
           aria-expanded="false">
           <i class="flaticon-381-home-3"></i>
@@ -12,6 +12,14 @@
         </a>
       </li>
 
+      <li class="{{(currentHref == '/admin/widget-basic') ? 'mm-active' : ''}}">
+        <a [routerLink]="['create-order']"
+          class="ai-icon {{(currentHref == '/admin/widget-basic') ? 'mm-active' : ''}}" class="ai-icon"
+          aria-expanded="false">
+          <i class="flaticon-381-notepad"></i>
+          <span class="nav-text">Ordenes</span>
+        </a>
+      </li>
 
       <li [ngClass]="{'mm-active': dashboardArray.indexOf(currentHref) > -1}">
         <a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
@@ -20,44 +28,12 @@
         </a>
         <ul aria-expanded="false" [ngClass]="{'mm-show': dashboardArray.indexOf(currentHref) > -1}">
           <li><a class="{{(currentHref == '/admin/index' || currentHref == '/admin') ? 'mm-active' : ''}}"
-              [routerLink]="['/admin/index']">Dashboard Light</a></li>
+              [routerLink]="['stores']">Creación de Tiendas</a></li>
           <li><a class="{{(currentHref == '/admin/index-2') ? 'mm-active' : ''}}"
-              [routerLink]="['/admin/index-2']">Dashboard Dark</a></li>
-          <li><a class="{{(currentHref == '/admin/analytics') ? 'mm-active' : ''}}"
-              [routerLink]="['/admin/analytics']">Analytics</a></li>
-          <li><a class="{{(currentHref == '/admin/events') ? 'mm-active' : ''}}"
-              [routerLink]="['/admin/events']">Events</a></li>
-          <li><a class="{{(currentHref == '/admin/order-list') ? 'mm-active' : ''}}"
-              [routerLink]="['/admin/order-list']">Order List</a></li>
-          <li><a class="{{(currentHref == '/admin/customer-list') ? 'mm-active' : ''}}"
-              [routerLink]="['/admin/customer-list']">Customer List</a></li>
-          <li><a class="{{(currentHref == '/admin/reviews') ? 'mm-active' : ''}}"
-              [routerLink]="['/admin/reviews']">Reviews</a></li>
+              [routerLink]="['manage-users']">Usuarios</a></li>
         </ul>
       </li>
 
-      <li [ngClass]="{'mm-active': dashboardArray.indexOf(currentHref) > -1}">
-        <a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
-          <i class="flaticon-381-notepad"></i>
-          <span class="nav-text">Reportes</span>
-        </a>
-        <ul aria-expanded="false" [ngClass]="{'mm-show': dashboardArray.indexOf(currentHref) > -1}">
-          <li><a class="{{(currentHref == '/admin/index' || currentHref == '/admin') ? 'mm-active' : ''}}"
-              [routerLink]="['/admin/index']">Dashboard Light</a></li>
-          <li><a class="{{(currentHref == '/admin/index-2') ? 'mm-active' : ''}}"
-              [routerLink]="['/admin/index-2']">Dashboard Dark</a></li>
-          <li><a class="{{(currentHref == '/admin/analytics') ? 'mm-active' : ''}}"
-              [routerLink]="['/admin/analytics']">Analytics</a></li>
-          <li><a class="{{(currentHref == '/admin/events') ? 'mm-active' : ''}}"
-              [routerLink]="['/admin/events']">Events</a></li>
-          <li><a class="{{(currentHref == '/admin/order-list') ? 'mm-active' : ''}}"
-              [routerLink]="['/admin/order-list']">Order List</a></li>
-          <li><a class="{{(currentHref == '/admin/customer-list') ? 'mm-active' : ''}}"
-              [routerLink]="['/admin/customer-list']">Customer List</a></li>
-          <li><a class="{{(currentHref == '/admin/reviews') ? 'mm-active' : ''}}"
-              [routerLink]="['/admin/reviews']">Reviews</a></li>
-        </ul>
-      </li>
 
       <li class="{{(currentHref == '/admin/widget-basic') ? 'mm-active' : ''}}">
         <a [routerLink]="['/admin/widget-basic']"

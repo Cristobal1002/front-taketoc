@@ -22,7 +22,7 @@ const routes: Routes = [
         }
       },
       {
-        path: 'vendor-dashboard',
+        path: 'store-dashboard',
         component: StoresComponent,
         data: {
           title: 'Dashboard Ventas',

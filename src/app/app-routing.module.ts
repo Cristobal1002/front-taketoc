@@ -4,6 +4,7 @@ import { RouterModule, Routes } from "@angular/router";
 
 import { PagesRoutingModule } from './pages/pages.routing';
 import { DashboardRoutingModule } from './pages/dashboard/dashboard.routing';
+import { AuthRoutingModule } from './auth/auth.routing';
 
 
 
@@ -18,7 +19,8 @@ const routes: Routes = [
   declarations: [],
   imports: [RouterModule.forRoot(routes, { useHash: true }),
     PagesRoutingModule,
-    DashboardRoutingModule
+    DashboardRoutingModule,
+    AuthRoutingModule
   ],
   exports: [RouterModule]
 })
