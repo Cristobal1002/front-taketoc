@@ -1,1 +1,63 @@
-<p>create-order works!</p>
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-xl-12 col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Solicitud de pedido</h4>
+                </div>
+                <div class="card-body">
+                    <div class="basic-form">
+
+                        <form>
+
+                            <div class="form-row">
+                                <div class="col-sm-7">
+                                    <label>Tipo de Pedido <a  class="text-right" placement="right" 
+                                        popoverTitle="Tipos de Pedido" 
+                                        ngbPopover="Entrega: Solo debemos entregar tu pedido en un destino,
+                                        Entrega y recogida: Debemos entregar un pedido y recoger otro para almacenar en Taketoc,
+                                        Recogida: Solo debemos recoger un pedido para almacenar en TAKETOC
+                                        ">
+                                        <i type="button" class="las la-question-circle text-info" ></i></a></label>
+                                    <input type="text" class="form-control" placeholder="Seleccione el tipo de pedido">
+                                </div>
+                                <div class="col mt-2 mt-sm-2">
+                                    <span>Nombre del destinatarario</span>
+                                    <input type="text" class="form-control" placeholder="Nombre completo">
+                                </div>
+                             
+                            </div>
+
+                            <br>
+                            <span class="text-info">Datos del destinatario</span>
+                            <br>
+
+                            <!--Datos destinatario-->
+
+                            <div class="form-row">
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control" placeholder="Ciudad">
+                                </div>
+                                <div class="col mt-2 mt-sm-0">
+                                    <input type="text" class="form-control" placeholder="Dirección">
+                                </div>
+                                <div class="col mt-2 mt-sm-0">
+                                    <input type="text" class="form-control" placeholder="Teléfono">
+                                </div>
+                            </div>
+
+                            <!--Datos adicionales-->
+
+                            <br>
+                            <span class="text-info">Datos Adicionales</span>
+                            <br>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
