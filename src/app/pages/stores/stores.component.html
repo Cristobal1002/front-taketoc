@@ -1,1 +1,170 @@
-<p>stores works!</p>
+<div class="container-fluid">
+
+    <div class="row align-items-center">
+        <div class="col-xl-4 col-lg-12 col-xxl-4 col-sm-12">
+            <div class="card">
+                <div class="card-body text-center ai-icon  text-primary">
+                    <svg id="rocket-icon" class="my-2" viewBox="0 0 24 24" width="50" height="50" stroke="currentColor"
+                        stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="20" x2="12" y2="10"></line>
+                        <line x1="18" y1="20" x2="18" y2="4"></line>
+                        <line x1="6" y1="20" x2="6" y2="16"></line>
+                    </svg>
+                    <button class="btn my-2 btn-sm btn-primary px-4" (click)="crearTienda = !crearTienda"><i
+                            class="fa fa-plus"></i>
+                        Crear Comercio</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="crearTienda">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Creación de Comercio</h4>
+                </div>
+
+                <div class="card-body">
+                    <div class="basic-form">
+                        <!--Begin Form Creación de Comercio-->
+                        <form>
+                            <div class="form-row">
+                                <div class="col-sm-7">
+                                    <label>Nombre del comercio</label>
+                                    <input type="text" class="form-control"
+                                        placeholder="Ingrese el nombre del comercio">
+                                </div>
+                                <div class="col-sm-4 mt-2 mt-sm-2">
+                                    <span>Número de identificación</span>
+                                    <input type="text" class="form-control" placeholder="# de documento del comercio">
+                                </div>
+
+                            </div>
+
+
+                            <br>
+                            <span class="text-info">Ubicación del comercio</span>
+                            <br>
+
+                            <!--Datos de ubicación-->
+
+                            <div class="form-row">
+                                <div class="col-sm-4">
+
+                                    <div class="form-group">
+                                        <select class="form-control  default-select">
+                                            <option>Selección de ciudad</option>
+                                            <option>Option 2</option>
+                                            <option>Option 3</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+                                <div class="col-sm-5 mt-2 mt-sm-0">
+
+                                    <input type="text" class="form-control" placeholder="Dirección">
+                                </div>
+                                <div class="col mt-3 mt-sm-0">
+
+                                    <input type="text" class="form-control" placeholder="Teléfono">
+                                </div>
+                            </div>
+
+                            <!--Datos adicionales-->
+
+                            <br>
+                            <span class="text-info">Correo contacto principal <a class="text-right" placement="right"
+                                    popoverTitle="Tipos de Pedido" ngbPopover="A este correo llegará la invitación de acceso principal
+                            ">
+                                    <i type="button" class="las la-question-circle text-info"></i></a></span>
+                            <br>
+
+                            <div class="form-row">
+                                <div class="col-sm-7">
+
+                                    <input type="email" class="form-control"
+                                        placeholder="Email administrador del comercio">
+                                </div>
+                            </div>
+
+                            <div class="form-row col-sm-6 mt-5">
+                                <button type="button" class=" col mr-2 btn light btn-warning"
+                                    (click)="crearTienda=false">Cancelar</button>
+                                <button type="button" class="col btn light btn-primary">Guardar</button>
+                            </div>
+
+                        </form>
+                        <!--End Form Creación de comercio-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Begin Table-->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Detalle de Órdenes</h4>
+                </div>
+                <div class="card-body">
+
+
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col"># Documento</th>
+                                    <th scope="col">Ciudad</th>
+                                    <th scope="col">Dirección</th>
+                                    <th scope="col">Teléfono</th>
+                                    <th scope="col">Estado</th>
+                                    <th scope="col">Opciones</th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let tienda of tiendas">
+                                    <th scope="row">{{ tienda.id }}</th>
+                                    <td>
+                                        {{ tienda.nombre }}
+                                    </td>
+                                    <td>{{ tienda.documentNumber}}</td>
+                                    <td>{{ tienda.ciudad}}</td>
+                                    <td>{{ tienda.direccion}}</td>
+                                    <td>{{ tienda.telefono}}</td>
+                                    <td>{{ tienda.estatus}}</td>
+                                    <td>
+                                        <a class="button mr-2"><i class="ti-pencil-alt text-primary"></i></a>
+                                        <a class="button mr-2"><i class="ti-lock text-danger"></i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="d-sm-flex d-block justify-content-between p-2">
+                        <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize"
+                            (pageChange)="refreshStores()">
+                        </ngb-pagination>
+
+                        <select class="custom-select" style="width: auto" [(ngModel)]="pageSize"
+                            (ngModelChange)="refreshStores()">
+                            <option [ngValue]="2">2 items per page</option>
+                            <option [ngValue]="4">4 items per page</option>
+                            <option [ngValue]="6">6 items per page</option>
+                        </select>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End Table-->
+
+</div>
