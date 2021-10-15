@@ -9,24 +9,31 @@
                 <div class="card-body">
                     <div class="basic-form">
 
-                        <form>
+                        <form [formGroup]="orderForm" (ngSubmit)="guardarOrden">
 
                             <div class="form-row">
-                                <div class="col-sm-7">
-                                    <label>Tipo de Pedido <a  class="text-right" placement="right" 
-                                        popoverTitle="Tipos de Pedido" 
-                                        ngbPopover="Entrega: Solo debemos entregar tu pedido en un destino,
+                                <div class="col-sm-4">
+                                    <label>Tipo de Pedido <a class="text-right" placement="right"
+                                            popoverTitle="Tipos de Pedido" ngbPopover="Entrega: Solo debemos entregar tu pedido en un destino,
                                         Entrega y recogida: Debemos entregar un pedido y recoger otro para almacenar en Taketoc,
                                         Recogida: Solo debemos recoger un pedido para almacenar en TAKETOC
                                         ">
-                                        <i type="button" class="las la-question-circle text-info" ></i></a></label>
-                                    <input type="text" class="form-control" placeholder="Seleccione el tipo de pedido">
+                                            <i type="button" class="las la-question-circle text-info"></i></a></label>
+                                    <div class="form-group">
+                                        <select class="form-control  default-select" formControlName="tipoPedido">
+                                            <option *ngFor="let tipo of tiposPedido">{{tipo.tipo}}</option>
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="col mt-2 mt-sm-2">
-                                    <span>Nombre del destinatarario</span>
-                                    <input type="text" class="form-control" placeholder="Nombre completo">
+                                <div class="col mt-2 mt-sm-2" *ngIf="orderForm.value.tipoPedido == 'Recogida' || orderForm.value.tipoPedido == 'Entrega y Recogida' ">
+                                    <span>Observación de Recogida <a class="text-right" placement="right"
+                                        popoverTitle="Detalle:" ngbPopover="Relaciona las observaciones sobre los detalles de recogida">
+                                        <i type="button" class="las la-question-circle text-info"></i></a></span>
+                                    <input type="text" class="form-control" placeholder="Detalles de recogida"
+                                        >
+                                    
                                 </div>
-                             
+
                             </div>
 
                             <br>
@@ -36,14 +43,29 @@
                             <!--Datos destinatario-->
 
                             <div class="form-row">
-                                <div class="col-sm-7">
-                                    <input type="text" class="form-control" placeholder="Ciudad">
+                                <div class="col mt-2 mt-sm-2 mb-3">
+                                    <span>Nombre del destinatarario</span>
+                                    <input type="text" class="form-control" placeholder="Nombre completo"
+                                        formControlName="nombre" [class.is-invalid]="invalidName">
+                                    <small *ngIf="invalidName" class="text-danger">Este campos es obligatorio</small>
                                 </div>
-                                <div class="col mt-2 mt-sm-0">
-                                    <input type="text" class="form-control" placeholder="Dirección">
+                            </div>
+
+                            <div class="form-row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <select class="form-control  default-select" formControlName="ciudad">
+                                            <option *ngFor="let ciudad of ciudades">{{ciudad.ciudad}}</option>
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="col mt-2 mt-sm-0">
-                                    <input type="text" class="form-control" placeholder="Teléfono">
+                                <div class=" col-sm-5 mt-2 mt-sm-0">
+                                    <input type="text" class="form-control" placeholder="Dirección"
+                                        formControlName="direccion">
+                                </div>
+                                <div class=" col-sm-3 mt-2 mt-sm-0">
+                                    <input type="text" class="form-control" placeholder="Teléfono"
+                                        formControlName="telefono">
                                 </div>
                             </div>
 
@@ -53,6 +75,104 @@
                             <span class="text-info">Datos Adicionales</span>
                             <br>
 
+                            <div class="form-row">
+
+                                <div class="col-sm-2 mt-2">
+                                    <span>Activar Recaudo</span>
+                                    <br>
+                                    <mat-slide-toggle formControlName="recaudo">
+                                    </mat-slide-toggle>
+
+                                </div>
+                                <div class="col-md-3 mt-2 mt-sm-2" *ngIf="orderForm.value.recaudo">
+
+                                    <input type="text" class="form-control" placeholder="Monto de recaudo"
+                                        formControlName="valorRecaudar">
+                                </div>
+
+                            </div>
+
+                            <br>
+                            <span class="text-info">Datos del pedido</span> 
+                            <br>
+
+                            <!--Agregar Articulos-->
+
+                            <div class="form-row mt-2" formGroupName="agregar">
+                                <div class=" col-sm-2 mt-2 mt-sm-0">
+                                    <span>Unidades</span>
+                                    <input type="text" class="form-control" placeholder="Cantidad"
+                                        formControlName="cantidad">
+                                </div>
+
+                                <div class=" col-sm-6 mt-2 mt-sm-0">
+                                    <span>Unidades</span>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="Descripción del producto"
+                                            formControlName="descripcion" (keyup.enter)="agregarArticulo()">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary" type="button" (click)="agregarArticulo()">+ Agregar</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <br>
+                            <span class="text-info">Resumen del pedido</span>
+                            <br>
+
+                            <!-- Resumen Pedido-->
+                            <span class="text-warning" *ngIf="detallePedido.length > 0"> No. de Items: {{detallePedido.length}}</span>
+                            <div class="form-row">
+                                <div class="col">
+                                    <div class="table-responsive">
+                                        <table class="table ">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Id</th>
+                                                    <th scope="col">Unidades</th>
+                                                    <th scope="col">Descripción</th>
+                                                    <th scope="col">Opciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody >
+                                                <tr *ngFor="let articulo of detallePedido; let i = index">
+                                                    <th scope="">{{i+1}}</th>
+                                                    <td>
+                                                        {{articulo.cantidad}}
+                                                    </td>
+                                                    <td>
+                                                        {{articulo.descripcion}}
+                                                    </td>
+                                                    <td WIDTH="200">
+                                                        <div >
+                                                            <a><i type="button" class="ti-trash text-danger" placement="left" (click)="eliminarArticulo(i)"></i></a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+
+                                        </table>
+
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+                            <br>
+
+                            <!--Botones-->
+
+                            <div class="form-row col-sm-6 mt-3">
+                                <button type="button" class=" col mr-2 btn btn-sm light btn-warning">Cancelar</button>
+                                <button type="submit" class="col btn btn-sm light btn-primary"
+                                    (click)="guardarOrden()">Guardar</button>
+                            </div>
+
                         </form>
 
                     </div>
@@ -60,4 +180,9 @@
             </div>
         </div>
 
+       <!--<pre>
+            {{orderForm.value | json}}
+        </pre>-->
+
     </div>
+</div>
