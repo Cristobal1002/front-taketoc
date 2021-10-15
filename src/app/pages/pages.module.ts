@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StoresComponent } from './stores/stores.component';
 import { CreateOrderComponent } from './create-order/create-order.component';
 import { ManageUsersComponent } from './manage-users/manage-users.component';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 
 
@@ -31,7 +32,8 @@ import { ManageUsersComponent } from './manage-users/manage-users.component';
     NgbModule,
     NgbPaginationModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    MatSlideToggleModule
   ]
 })
 export class PagesModule { }
