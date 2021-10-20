@@ -11,7 +11,10 @@
 
                         <form [formGroup]="orderForm" (ngSubmit)="guardarOrden">
 
-                            <div class="form-row">
+                            <span class="text-info">Configuración del pedido</span>
+                            <br>
+
+                            <div class="form-row mt-2">
                                 <div class="col-sm-4">
                                     <label>Tipo de Pedido <a class="text-right" placement="right"
                                             popoverTitle="Tipos de Pedido" ngbPopover="Entrega: Solo debemos entregar tu pedido en un destino,
@@ -20,18 +23,50 @@
                                         ">
                                             <i type="button" class="las la-question-circle text-info"></i></a></label>
                                     <div class="form-group">
-                                        <select class="form-control  default-select" formControlName="tipoPedido">
+                                        <select class="form-control  default-select" formControlName="order_type">
                                             <option *ngFor="let tipo of tiposPedido">{{tipo.tipo}}</option>
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col mt-2 mt-sm-2" *ngIf="orderForm.value.tipoPedido == 'Recogida' || orderForm.value.tipoPedido == 'Entrega y Recogida' ">
+                                <div class="col mt-2 mt-sm-2"
+                                    *ngIf="orderForm.value.order_type == 'Recogida' || orderForm.value.order_type == 'Entrega y Recogida' ">
                                     <span>Observación de Recogida <a class="text-right" placement="right"
-                                        popoverTitle="Detalle:" ngbPopover="Relaciona las observaciones sobre los detalles de recogida">
-                                        <i type="button" class="las la-question-circle text-info"></i></a></span>
+                                            popoverTitle="Detalle:"
+                                            ngbPopover="Relaciona las observaciones sobre los detalles de recogida">
+                                            <i type="button" class="las la-question-circle text-info"></i></a></span>
                                     <input type="text" class="form-control" placeholder="Detalles de recogida"
-                                        >
-                                    
+                                        formControlName="pickup_remarks">
+
+                                </div>
+
+                            </div>
+
+                            <div class="form-row">
+
+                                <div class="col-sm-4">
+                                    <label>Categoría </label>
+                                    <div class="form-group">
+                                        <select class="form-control  default-select" formControlName="order_category">
+                                            <option *ngFor="let tipo of categorias">{{tipo.tipo}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div *ngIf="orderForm.value.order_category == 'Custom Day'">
+                                    <label>Fecha de entrega </label>
+                                    <form class="form-inline">
+
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <input class="form-control" placeholder="yyyy-mm-dd" name="dp"
+                                                    [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" >
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-outline-secondary calendar"
+                                                        (click)="d.toggle()" type="button"></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
 
                             </div>
@@ -46,7 +81,7 @@
                                 <div class="col mt-2 mt-sm-2 mb-3">
                                     <span>Nombre del destinatarario</span>
                                     <input type="text" class="form-control" placeholder="Nombre completo"
-                                        formControlName="nombre" [class.is-invalid]="invalidName">
+                                        formControlName="customer_name" [class.is-invalid]="invalidName">
                                     <small *ngIf="invalidName" class="text-danger">Este campos es obligatorio</small>
                                 </div>
                             </div>
@@ -54,18 +89,18 @@
                             <div class="form-row">
                                 <div class="col-sm-4">
                                     <div class="form-group">
-                                        <select class="form-control  default-select" formControlName="ciudad">
+                                        <select class="form-control  default-select" formControlName="delivery_city">
                                             <option *ngFor="let ciudad of ciudades">{{ciudad.ciudad}}</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class=" col-sm-5 mt-2 mt-sm-0">
                                     <input type="text" class="form-control" placeholder="Dirección"
-                                        formControlName="direccion">
+                                        formControlName="customer_address">
                                 </div>
                                 <div class=" col-sm-3 mt-2 mt-sm-0">
                                     <input type="text" class="form-control" placeholder="Teléfono"
-                                        formControlName="telefono">
+                                        formControlName="customer_phone">
                                 </div>
                             </div>
 
@@ -80,20 +115,20 @@
                                 <div class="col-sm-2 mt-2">
                                     <span>Activar Recaudo</span>
                                     <br>
-                                    <mat-slide-toggle formControlName="recaudo">
+                                    <mat-slide-toggle formControlName="have_payment">
                                     </mat-slide-toggle>
 
                                 </div>
                                 <div class="col-md-3 mt-2 mt-sm-2" *ngIf="orderForm.value.recaudo">
 
                                     <input type="text" class="form-control" placeholder="Monto de recaudo"
-                                        formControlName="valorRecaudar">
+                                        formControlName="payment_amount">
                                 </div>
 
                             </div>
 
                             <br>
-                            <span class="text-info">Datos del pedido</span> 
+                            <span class="text-info">Datos del pedido</span>
                             <br>
 
                             <!--Agregar Articulos-->
@@ -101,7 +136,7 @@
                             <div class="form-row mt-2" formGroupName="agregar">
                                 <div class=" col-sm-2 mt-2 mt-sm-0">
                                     <span>Unidades</span>
-                                    <input type="text" class="form-control" placeholder="Cantidad"
+                                    <input type="number" class="form-control" placeholder="Cantidad"
                                         formControlName="cantidad">
                                 </div>
 
@@ -111,7 +146,8 @@
                                         <input type="text" class="form-control" placeholder="Descripción del producto"
                                             formControlName="descripcion" (keyup.enter)="agregarArticulo()">
                                         <div class="input-group-append">
-                                            <button class="btn btn-primary" type="button" (click)="agregarArticulo()">+ Agregar</button>
+                                            <button class="btn btn-primary" type="button" (click)="agregarArticulo()">+
+                                                Agregar</button>
                                         </div>
                                     </div>
                                 </div>
@@ -123,7 +159,8 @@
                             <br>
 
                             <!-- Resumen Pedido-->
-                            <span class="text-warning" *ngIf="detallePedido.length > 0"> No. de Items: {{detallePedido.length}}</span>
+                            <span class="text-warning" *ngIf="detallePedido.length > 0"> No. de Items:
+                                {{detallePedido.length}}</span>
                             <div class="form-row">
                                 <div class="col">
                                     <div class="table-responsive">
@@ -136,7 +173,7 @@
                                                     <th scope="col">Opciones</th>
                                                 </tr>
                                             </thead>
-                                            <tbody >
+                                            <tbody>
                                                 <tr *ngFor="let articulo of detallePedido; let i = index">
                                                     <th scope="">{{i+1}}</th>
                                                     <td>
@@ -146,8 +183,10 @@
                                                         {{articulo.descripcion}}
                                                     </td>
                                                     <td WIDTH="200">
-                                                        <div >
-                                                            <a><i type="button" class="ti-trash text-danger" placement="left" (click)="eliminarArticulo(i)"></i></a>
+                                                        <div>
+                                                            <a><i type="button" class="ti-trash text-danger"
+                                                                    placement="left"
+                                                                    (click)="eliminarArticulo(i)"></i></a>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -180,9 +219,9 @@
             </div>
         </div>
 
-       <!--<pre>
+        <pre>
             {{orderForm.value | json}}
-        </pre>-->
+        </pre>
 
     </div>
 </div>
