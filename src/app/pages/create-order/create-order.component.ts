@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
-import {ThemePalette} from '@angular/material/core';
+import { ThemePalette } from '@angular/material/core';
+import { NgbCalendar, NgbDate, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-create-order',
@@ -8,6 +9,11 @@ import {ThemePalette} from '@angular/material/core';
   styleUrls: ['./create-order.component.css']
 })
 export class CreateOrderComponent implements OnInit {
+
+  //Datepicker
+  model: NgbDateStruct;
+  date: { year: number, month: number };
+  
 
   //TODO Cambiar, buscar una forma de evitar esto
 
@@ -63,72 +69,105 @@ export class CreateOrderComponent implements OnInit {
     },
   ]
 
+  categorias: any[] = [
+    {
+      tipo: "Same Day"
+    },
+    {
+      tipo: "Next Day"
+    },
+    {
+      tipo: "Custom Day"
+    }
+
+  ]
+
   orderForm: FormGroup
 
   //Propiedades
   detallePedido = [];
 
-  constructor(private fb: FormBuilder) {
-
+  constructor(private fb: FormBuilder,
+    private calendar: NgbCalendar) {
+      this.selectToday();
     this.createOrderForm();
 
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void { 
+    
   }
+  
 
   // geters para validaciones
 
   get invalidName() {
-    return this.orderForm.get('nombre').invalid && this.orderForm.get('nombre').touched
+    return this.orderForm.get('customer_name').invalid && this.orderForm.get('customer_name').touched
   }
 
-  get articulos(){
+  get articulos() {
     return this.orderForm.get('articulos') as FormArray;
   }
+
+ 
 
   createOrderForm() {
 
     this.orderForm = this.fb.group({
-      tipoPedido: [],
-      nombre: ['', Validators.required],
-      ciudad: [],
-      direccion: [],
-      telefono: [],
-      recaudo: [false],
-      valorRecaudar:[0],
+      order_type: [],
+      order_category: [],
+      date_delivery: [this.setDate()],
+      pickup_remarks: [],
+      customer_name: ['', Validators.required],
+      delivery_city: [],
+      customer_address: [],
+      customer_phone: [],
+      have_payment: [false],
+      payment_amount: [0],
+      order_detail: [this.detallePedido],
+      pending_marks: [],
+      order_status: 'En Bodega',
       agregar: this.fb.group({
-        cantidad: [4],
-        descripcion: ['Oli']
-      }),
+        cantidad: [],
+        descripcion: ['']
+      })
 
     });
 
   }
 
-  setTipo(value: string){
-    this.tipo = value
+  /**Calendario
+   * 
+   */
+
+  isDisabled = (date: NgbDate, current: { month: number, year: number }) => date.month !== current.month;
+  isWeekend = (date: NgbDate) => this.calendar.getWeekday(date) >= 6;
+
+  setDate(){
+    const {day, month, year } = this.model;
+    return  `${day}/${month}/${year}`
   }
 
-  setCiudad(){
-
+  selectToday() {
+    this.model = this.calendar.getToday();
   }
 
-  agregarArticulo(){
+  agregarArticulo() {
 
-    let item = this.orderForm.value.agregar 
+    let item = this.orderForm.value.agregar
     this.detallePedido.push(item)
     console.log(this.detallePedido);
   }
 
-  eliminarArticulo(index: number){
+  eliminarArticulo(index: number) {
     this.detallePedido.splice(index, 1);
+    console.log(this.detallePedido);
   }
 
   guardarOrden() {
     console.log(this.orderForm);
     if (this.orderForm.invalid) {
-      Object.values( this.orderForm.controls).forEach( control => {
+      Object.values(this.orderForm.controls).forEach(control => {
         control.markAllAsTouched();
       })
     }
